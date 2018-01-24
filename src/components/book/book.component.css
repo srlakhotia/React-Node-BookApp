@@ -1,0 +1,5 @@
+.add-to-cart-button {
+    position: absolute;
+    right:13px;
+    top: calc("50% - 16px");
+}

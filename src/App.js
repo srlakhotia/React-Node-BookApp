@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import BookShelf from './components/bookShelf/bookShelf.component';
+import BookShelf from './containers/bookShelf/bookShelf.container';
 
 class App extends Component {
   constructor(props) {

@@ -64,7 +64,7 @@ class BookShelf extends Component {
                         bk-publisher={book.publisher}
                         bk-year={book.year}
                         bk-price={book.price}
-                        bk-stk={book.stk}
+                        bk-stock={book.stock}
                         add-book-to-cart={this.addBookToCart}
                     ></Book>
                 </li>

@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 class Book extends Component {
     constructor(props) {
         super(props);
-
+        console.log(this.props['bk-stock'])
         this.addToCart = () => {
             this.props['add-book-to-cart']({
                 id: this.props['bk-id']
@@ -24,11 +24,11 @@ class Book extends Component {
                         right: '13px',
                         top: 'calc(50% - 16px)'
                     }}
+                    disabled={ this.props['bk-stock'] < 1 }
                 >Add to cart</button>
             </div>
         )
     }
 };
-
 
 export default Book;

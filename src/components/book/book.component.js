@@ -4,9 +4,16 @@ class Book extends Component {
     constructor(props) {
         super(props);
 
+        this.addBookToCart = this.props['add-book-to-cart'];
+
         this.addToCart = () => {
-            this.props['add-book-to-cart']({
-                id: this.props['bk-id']
+            this.addBookToCart({
+                id: this.props['bk-id'],
+                title: this.props['bk-title'],
+                publisher: this.props['bk-publisher'],
+                year: this.props['bk-year'],
+                price: this.props['bk-price'],
+                stock: this.props['bk-stock']
             });
         };
     }
@@ -16,6 +23,7 @@ class Book extends Component {
                 <p className="book-title"><strong>{this.props['bk-title']}</strong>, {this.props['bk-year']}</p>
                 <p className="book-author">Author: {this.props['bk-author']}</p>
                 <p className="book-price">Price: ${this.props['bk-price']}</p>
+                <p className="book-stock">Stock: {this.props['bk-stock']} item(s)</p>
                 <button
                     className="btn btn-default add-to-cart-button"
                     onClick={this.addToCart}

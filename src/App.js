@@ -13,16 +13,50 @@ class App extends Component {
       cartItems: []
     }
 
-    this.goToCart = () => {
-      // document.location.href = '/cart';
-    }
-  
+    this.updateCart = (id, item) => {
+      let cartItems = this.state.cartItems;
+      let currentItemCount = 0;
+      this.state.cartItems.forEach((item)=> {
+        if(item.id === id) {
+          currentItemCount++;
+        }
+        return false;
+      });
+
+      if(currentItemCount < item.qty) {
+        cartItems.push(item.itemDetail);
+      } else {
+        cartItems.some((item, idx) => {
+          if(item.id === id) {
+            cartItems.splice(idx, 1);
+            return true;
+          }
+          return false;
+        });
+      }
+
+      this.setState({
+        cartItemCount: cartItems.length,
+        cartItems: cartItems
+      });
+    };
+
     this.addBookToCart = (item) => {
       let count = this.state.cartItemCount;
       let tempCartItemsVar = this.state.cartItems.slice();
+
+      const addedId = item.id;
+      const existingLength = tempCartItemsVar.filter((cartItem) => {
+        return cartItem.id === addedId;
+      }).length;
+
+      if(existingLength === item.stock) {
+        return;
+      }
+
       tempCartItemsVar.push(item);
-      this.setState({cartItemCount: ++count});
-      this.setState({cartItems: tempCartItemsVar })
+      this.setState({ cartItemCount: ++count });
+      this.setState({cartItems: tempCartItemsVar });
     }
   }
   
@@ -33,18 +67,18 @@ class App extends Component {
       <nav className="navbar navbar-default">
       <div className="container-fluid">
       <div className="navbar-header">
-      <a className="navbar-brand" href="/">My Bookstore</a>
+      <Link className="navbar-brand" to="/">My Bookstore</Link>
       </div>
       <ul className="nav navbar-nav">
-      <li><a href="/">Book List</a></li>
+        <li><Link to="/">Book List</Link></li>
       </ul>
 
-      <Link to='/cart' style={{"marginTop": "5px"}} className="btn btn-primary pull-right" onClick={this.goToCart}>Checkout ({this.state.cartItemCount} items)</Link>
+      <Link to='/cart' style={{"marginTop": "5px"}} className="btn btn-primary pull-right">Checkout ({this.state.cartItemCount} items)</Link>
       </div>
       </nav>
         <div>
           <Route exact path="/" render={(props) => <BookShelf {...props} add-book-to-cart={this.addBookToCart} />} ></Route>
-          <Route strict path="/cart" render={(props) => <Checkout {...props} cart-items={this.state.cartItems} />} ></Route>
+          <Route strict path="/cart" render={(props) => <Checkout {...props} cart-items={this.state.cartItems} update-cart={this.updateCart} />} ></Route>
         </div>
       </div>
     );

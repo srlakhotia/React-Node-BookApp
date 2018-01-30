@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import './checkout.container.css';
 import CartItem from '../../components/cart-item/cartItem.component';
+import {Link} from 'react-router-dom';
 
 class Checkout extends Component {
     constructor(props) {
@@ -11,8 +12,8 @@ class Checkout extends Component {
         };
         this.updateCart = this.props['update-cart'];
 
-        this.updateCartByItem = (id, item) => {
-            this.updateCart(id, item);
+        this.updateCartByItem = (id, item, removeAllOfItem) => {
+            this.updateCart(id, item, removeAllOfItem);
             this.sanitizeValuesForCart();
             this.getTotal();
         }
@@ -59,9 +60,12 @@ class Checkout extends Component {
 
     render() {
         let checkoutMapList = this.state['cart-items'].map((item, i) => {
-            return (<li key={i} className="list-group-item">
-                <CartItem item={item} update-cart={this.updateCartByItem}></CartItem>
-            </li>);
+            if(item.qty) {
+                return (<li key={i} className="list-group-item">
+                    <CartItem item={item} update-cart={this.updateCartByItem}></CartItem>
+                </li>);
+            }
+            return false;
         });
         return (
             <div>
@@ -80,9 +84,12 @@ class Checkout extends Component {
                             <div className="col-lg-2">${this.state['total-value']}</div>
                         </li>
                     </ul>
+                    <div className="panel-body">
+                        <Link to='/order' className="btn btn-success pull-right">Checkout Now</Link>
+                    </div>
                 </div>
             </div>
-        )
+        );
     }
 }
 
